@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Actualizar Perfil</title>
     <script>
         // Función para cargar los datos del perfil cuando se cargue la página
@@ -91,6 +93,52 @@
     </script>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light naranjo-01">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="imagenes/capsule.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            FarmaWiki
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      
+            <ul class="navbar-nav">
+      
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="perfil_paciente.html">
+                  <img src="imagenes/persona_03.svg" alt="" width="30" height="24" class="d-inline-block align-text-top me-2">
+                  Perfil
+                </a>
+              </li>
+      
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="receta_visualizador.html">
+                  <img src="imagenes/bote_pastilla.svg" alt="" width="30" height="24" class="d-inline-block align-text-top me-2">
+                  Recetas
+                </a>
+              </li>
+      
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="alergia_visualizador.html">
+                  <img src="imagenes/virus.svg" alt="" width="30" height="24" class="d-inline-block align-text-top me-2">
+                  Alergias
+                </a>
+              </li>
+  
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">
+                  <img src="imagenes/salida.svg" alt="" width="30" height="24" class="d-inline-block align-text-top me-2">
+                  Cerrar sesión 
+                </a>
+              </li>
+      
+            </ul>
+      
+          </div>
+        </div>
+      </nav>
     <h1>Actualizar Perfil</h1>
     
     <p id="mensaje"></p> <!-- Mensaje para el usuario si no tiene perfil -->
