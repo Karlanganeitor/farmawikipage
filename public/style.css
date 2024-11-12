@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+    text-align: center;
+    padding: 0px;
+}
+
+h1 {
+    color: #000000;
+}
+
+.contenedor-columnas {
+    margin-top: 20px; /* ajusta el valor según sea necesario */
+}
+
+.naranjo-01 {
+    background-color: #FF8C42;
+
+}
+
+.naranjo-02 {
+    background-color: #FF8C42;
+
+}
+.naranjo-02:hover {
+    background-color: #FFA07A;
+    border-color: #FFA07A;
+}
+
+.gris-oscuro {
+    color: #000000;
+    text-decoration: none;
+}
+
+.gris-oscuro:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.border-0 {
+    border: none;
+  }
+
+
+body {
+    background-image: url('imagenes/fondo_pastillas.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+
+/* Estilo opcional para mejorar la alineación de la barra de búsqueda */
+.nav-item .form-control {
+    width: 200px; /* Ajusta el ancho según prefieras */
+  }
+  .nav-item .btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+
+
+
+

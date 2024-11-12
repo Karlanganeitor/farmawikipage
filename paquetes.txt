@@ -1,0 +1,12 @@
+paquetes: 
+npm install bcrypt
+npm install cors
+npm install MySQL express
+npm init -y
+npm install aws-sdk
+npm install aws-sdk amazon-cognito-identity-js
+npm install mysql2
+npm install -g nodemon
+
+hecharlo a andar: nodemon archivo.js   
+punto enlace bd: farmawiki.c5yew0gcemb0.sa-east-1.rds.amazonaws.com

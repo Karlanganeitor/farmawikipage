@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <script>
+        async function registerUser() {
+            const nombre_usuario = document.getElementById('nombre_usuario').value;
+            const correo_elec = document.getElementById('correo_elec').value;
+            const contrasena = document.getElementById('contrasena').value;
+
+            if (!nombre_usuario || !correo_elec || !contrasena) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/registro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nombre_usuario, correo_elec, contrasena })
+                });
+
+                const data = await response.json();
+                
+                if (response.status === 201) {
+                    alert('Usuario registrado exitosamente. Inicia sesión.');
+                    window.location.href = "/login.html";
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Registro de Usuario</h2>
+    <form onsubmit="event.preventDefault(); registerUser();">
+        <label for="nombre_usuario">Nombre de Usuario:</label><br>
+        <input type="text" id="nombre_usuario" name="nombre_usuario" required><br><br>
+
+        <label for="correo_elec">Correo Electrónico:</label><br>
+        <input type="email" id="correo_elec" name="correo_elec" required><br><br>
+
+        <label for="contrasena">Contraseña:</label><br>
+        <input type="password" id="contrasena" name="contrasena" required><br><br>
+
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <br>
+    <button onclick="window.location.href='/login.html'">Volver al inicio de sesión</button>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Perfil</title>
+    <script>
+        // Función para cargar los datos del perfil cuando se cargue la página
+        async function cargarDatosPerfil() {
+            const id_usuario = localStorage.getItem('id_usuario'); // Obtener id_usuario desde localStorage
+            
+            if (!id_usuario) {
+                alert("No hay una sesión activa. Por favor, inicia sesión.");
+                window.location.href = '/login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/perfil/${id_usuario}`);
+                if (response.status === 200) {
+                    const perfil = await response.json();
+                    
+                    // Verificar si hay datos del perfil
+                    if (!perfil || Object.keys(perfil).length === 0) {
+                        document.getElementById('mensaje').innerText = "No tienes un perfil aún. Por favor, completa la siguiente información para crear uno.";
+                    } else {
+                        // Llenamos el formulario con los datos obtenidos
+                        document.getElementById('n_doc_identificacion').value = perfil.n_doc_identificacion || '';
+                        document.getElementById('telefono').value = perfil.telefono || '';
+                        document.getElementById('fecha_nac').value = perfil.fecha_nac || '';
+                        document.getElementById('direccion').value = perfil.direccion || '';
+                        document.getElementById('region').value = perfil.region || '';
+                        document.getElementById('comuna').value = perfil.comuna || '';
+                    }
+                } else {
+                    alert('No se pudieron cargar los datos del perfil');
+                }
+            } catch (error) {
+                console.error('Error al cargar los datos del perfil:', error);
+                alert('Hubo un error al cargar el perfil.');
+            }
+        }
+
+        // Función para actualizar o crear el perfil
+        async function actualizarPerfil(event) {
+    event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+    
+    const id_usuario = localStorage.getItem('id_usuario');
+    const n_doc_identificacion = document.getElementById('n_doc_identificacion').value;
+    const telefono = document.getElementById('telefono').value;
+    const fecha_nac = document.getElementById('fecha_nac').value;
+    const direccion = document.getElementById('direccion').value;
+    const region = document.getElementById('region').value;
+    const comuna = document.getElementById('comuna').value;
+
+    try {
+        const response = await fetch(`http://localhost:3000/perfil/${id_usuario}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                n_doc_identificacion,
+                telefono,
+                fecha_nac,
+                direccion,
+                region,
+                comuna
+            })
+        });
+
+        const data = await response.json(); // Obtener respuesta JSON
+
+        // Verifica la respuesta
+        console.log('Respuesta del servidor:', data);
+
+        if (response.status === 200) {
+            alert('Perfil actualizado correctamente');
+        } else {
+            alert('No se pudo actualizar el perfil: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error al actualizar el perfil:', error);
+        alert('Hubo un error al actualizar el perfil.');
+    }
+}
+
+
+        // Cargar los datos del perfil cuando se cargue la página
+        window.onload = cargarDatosPerfil;
+    </script>
+</head>
+<body>
+    <h1>Actualizar Perfil</h1>
+    
+    <p id="mensaje"></p> <!-- Mensaje para el usuario si no tiene perfil -->
+
+    <form onsubmit="actualizarPerfil(event)">
+        <label for="n_doc_identificacion">Documento de Identificación:</label><br>
+        <input type="text" id="n_doc_identificacion" name="n_doc_identificacion" required><br><br>
+
+        <label for="telefono">Teléfono:</label><br>
+        <input type="text" id="telefono" name="telefono" required><br><br>
+
+        <label for="fecha_nac">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fecha_nac" name="fecha_nac" required><br><br>
+
+        <label for="direccion">Dirección:</label><br>
+        <input type="text" id="direccion" name="direccion" required><br><br>
+
+        <label for="region">Región:</label><br>
+        <input type="text" id="region" name="region" required><br><br>
+
+        <label for="comuna">Comuna:</label><br>
+        <input type="text" id="comuna" name="comuna" required><br><br>
+
+        <button type="submit">Guardar Perfil</button>
+    </form>
+
+    <br>
+    <!-- Botón para regresar al dashboard -->
+    <button onclick="window.location.href='/dashboard.html'">Volver al Dashboard</button>
+</body>
+</html>
