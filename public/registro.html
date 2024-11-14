@@ -39,11 +39,103 @@
             }
         }
     </script>
+    <script> // validar formato email
+      function validateEmail(email) {
+          const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+          return re.test(email);
+      }
+  
+      async function registerUser() {
+          const nombre_usuario = document.getElementById('nombre_usuario').value;
+          const correo_elec = document.getElementById('correo_elec').value;
+          const contrasena = document.getElementById('contrasena').value;
+  
+          if (!nombre_usuario || !correo_elec || !contrasena) {
+              alert('Por favor, completa todos los campos.');
+              return;
+          }
+  
+          if (!validateEmail(correo_elec)) {
+              alert('Por favor, ingresa un correo electrónico válido.');
+              return;
+          }
+  
+          try {
+              const response = await fetch('http://localhost:3000/registro', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ nombre_usuario, correo_elec, contrasena })
+              });
+  
+              const data = await response.json();
+              
+              if (response.status === 201) {
+                  alert('Usuario registrado exitosamente. Inicia sesión.');
+                  window.location.href = "/login.html";
+              } else {
+                  alert('Error: ' + data.message);
+              }
+          } catch (error) {
+              console.error('Error en la solicitud:', error);
+          }
+      }
+  </script>
+  <script> // ------------Validar formato password
+    function validatePassword(password) {
+        const re = /^(?=.*[A-Z])(?=.*\d).{8,}$/; // Al menos 8 caracteres, una mayúscula y un número
+        return re.test(password);
+    }
+
+    async function registerUser() {
+        const nombre_usuario = document.getElementById('nombre_usuario').value;
+        const correo_elec = document.getElementById('correo_elec').value;
+        const contrasena = document.getElementById('contrasena').value;
+
+        if (!nombre_usuario || !correo_elec || !contrasena) {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+        if (!validateEmail(correo_elec)) {
+            alert('Por favor, ingresa un correo electrónico válido.');
+            return;
+        }
+
+        if (!validatePassword(contrasena)) {
+            alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/registro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre_usuario, correo_elec, contrasena })
+            });
+
+            const data = await response.json();
+            
+            if (response.status === 201) {
+                alert('Usuario registrado exitosamente. Inicia sesión.');
+                window.location.href = "/login.html";
+            } else {
+                alert('Error: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    }
+</script>
+
 </head>
 <body>
     <nav class="navbar navbar-light  naranjo-01">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="login.html">
             <img src="imagenes/capsule.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
             FarmaWiki
           </a>

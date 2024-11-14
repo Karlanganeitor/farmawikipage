@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 
     <title>FarmaWiki </title>
     
@@ -27,7 +27,8 @@
     </script>
   </head>
 
-  <body>
+  <body>    
+    <Header>
 
     <nav class="navbar navbar-expand-lg navbar-light naranjo-01">
       <div class="container-fluid">
@@ -78,7 +79,7 @@
         </div>
       </div>
     </nav>
-
+</Header>
 
 
 
@@ -220,11 +221,23 @@
             <form id="formAlergia" onsubmit="registrarAlergia(event)">
                 <div class="mb-3">
                     <label for="tipo_alergia" class="form-label">Tipo de alergia</label>
-                    <input type="text" class="form-control" id="tipo_alergia" name="tipo_alergia" required>
+                    <select class="form-control" id="tipo_alergia" name="tipo_alergia" required>
+                        <option value="" disabled selected>Seleccione una alergia</option>
+                        <option value="Alergias alimentarias">Alergias alimentarias</option>
+                        <option value="Alergias a fármacos">Alergias a fármacos</option>
+                        <option value="Dermatitis atópica">Dermatitis atópica</option>
+                        <option value="Poliposis nasal">Poliposis nasal</option>
+                        <option value="Rinitis alérgica">Rinitis alérgica</option>
+                        <option value="Urticaria crónica">Urticaria crónica</option>
+                        <option value="Dermatitis alérgica por contacto">Dermatitis alérgica por contacto</option>
+                        <option value="Alergia a los cosméticos">Alergia a los cosméticos</option>
+                        <option value="Alergia al sol">Alergia al sol</option>
+                        <option value="Alergia a los insectos">Alergia a los insectos</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
+                    <label for="descripcion" class="form-label">Descripción (Reacion)</label>
                     <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
                 </div>
 

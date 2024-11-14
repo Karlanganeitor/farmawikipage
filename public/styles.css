@@ -1,0 +1,132 @@
+/* receta.css */
+
+/* Estilo general para el body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el header */
+header {
+    background-color: #f18417;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #fff;
+}
+
+/* Estilos para la sección de registro de receta */
+section {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+input[type="date"],
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para la tabla de recetas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Estilo para los encabezados de la tabla */
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Resaltar las celdas de la tabla */
+td {
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 1rem;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}
+
+
+/* Estilo para el select de vía de administración */
+select {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+}

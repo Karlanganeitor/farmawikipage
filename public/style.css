@@ -62,3 +62,77 @@ body {
 
 
 
+/* Estilo para los formularios */
+form {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+
+/* Estilo para los botones */
+button {
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:focus {
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #FF8C42;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #FFA07A;
+}
+
+
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+
