@@ -401,6 +401,32 @@ app.post('/receta', (req, res) => {
 });
 
 
+//-----------------------------------------
+app.delete('/receta/:id_receta', (req, res) => {
+    const { id_receta } = req.params;
+
+    const deleteRecetaSql = `DELETE FROM Receta WHERE id_receta = ?`;
+
+    db.query(deleteRecetaSql, [id_receta], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar la receta:', err.message);
+            return res.status(500).json({ message: 'Error al eliminar la receta', error: err });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Receta no encontrada' });
+        }
+
+        res.status(200).json({ message: 'Receta eliminada con éxito' });
+    });
+});
+
+///-----------------------------------------------------
+
+
+
+
+
 // Ruta para obtener las recetas de un usuario
 app.get('/recetas/:usuario_id', (req, res) => {
     const { usuario_id } = req.params;
