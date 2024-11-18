@@ -6,6 +6,10 @@ body {
     background-color: #f4f4f9;
     margin: 0;
     padding: 0;
+    background-image: url('imagenes/fondo_pastillas.png');
+    background-size: cover;
+    background-position: center;
+    
 }
 
 /* Estilo para el header */
@@ -63,7 +67,7 @@ textarea {
 }
 
 button[type="submit"] {
-    background-color: #007bff;
+    background-color: #FF8C42;
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -71,8 +75,9 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
+button[type="submit"] {
+    background-color: #FF8C42;
+    color: white;
 }
 
 /* Estilos para la tabla de recetas */
@@ -99,10 +104,10 @@ tr:hover {
 
 /* Estilo para los encabezados de la tabla */
 th {
-    background-color: #007bff;
+    background-color: #FF8C42;
     color: white;
 }
-
+|
 /* Resaltar las celdas de la tabla */
 td {
     color: #333;

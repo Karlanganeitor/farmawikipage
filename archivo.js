@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');  // Para manejar solicitudes CORS
 const path = require('path');  // Importa path para gestionar rutas
 
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());  // Permitir solicitudes desde el frontend
@@ -67,22 +68,23 @@ app.post('/login', (req, res) => {
         res.status(200).json({ 
             message: 'Inicio de sesión exitoso', 
             nombre_usuario: usuario.nombre_usuario, 
-            id_usuario: usuario.id_usuario // Asegurarse de devolver el id_usuario
+            id_usuario: usuario.id_usuario, 
+            func_salud: usuario.func_salud // Incluye el campo func_salud en la respuesta
         });
     });
 });
 
 // -------------------------------------------Ruta para registrar un nuevo usuario-------------------------------------------
+// Ruta para registrar un nuevo usuario
 app.post('/registro', async (req, res) => {
     const { nombre_usuario, correo_elec, contrasena } = req.body;
 
-    // Verificar que los campos necesarios están presentes
     if (!nombre_usuario || !correo_elec || !contrasena) {
         return res.status(400).json({ message: 'Faltan datos: nombre_usuario, correo_elec y contrasena son requeridos' });
     }
 
     try {
-        // Hashear la contraseña antes de almacenarla
+        // Hashear la contraseña
         const hashedPassword = await bcrypt.hash(contrasena, 10);
 
         // Verificar si el correo ya está registrado
@@ -105,7 +107,7 @@ app.post('/registro', async (req, res) => {
                     return res.status(500).send('Error al registrar el usuario');
                 }
 
-                const id_usuario = result.insertId; // Obtener el id del usuario recién insertado
+                const id_usuario = result.insertId; // ID del usuario registrado
 
                 // Crear un perfil para el usuario
                 const perfilSql = 'INSERT INTO Perfil_user (usuario_id) VALUES (?)';
@@ -115,16 +117,10 @@ app.post('/registro', async (req, res) => {
                         return res.status(500).send('Error al crear el perfil');
                     }
 
-                    // Insertar una alergia predeterminada para el usuario
-                    const alergiaSql = 'INSERT INTO Alergia (tipo_alergia, descripcion, usuario_id) VALUES (?, ?, ?)';
-                    db.query(alergiaSql, ['  ', ' ', id_usuario], (err, result) => {
-                        if (err) {
-                            console.error('Error al registrar la alergia:', err);
-                            return res.status(500).send('Error al registrar la alergia');
-                        }
-
-                        // Todo fue exitoso, responder al cliente
-                        res.status(201).json({ message: 'Usuario registrado, perfil y alergia predeterminada creados exitosamente' });
+                    // Responder que el registro fue exitoso
+                    res.status(201).json({ 
+                        message: 'Usuario registrado exitosamente', 
+                        id_usuario 
                     });
                 });
             });
@@ -134,6 +130,7 @@ app.post('/registro', async (req, res) => {
         res.status(500).send('Error en el servidor');
     }
 });
+
 
 
 // -------------------------------------------Ruta para registrar alergias -------------------------------------------
@@ -449,7 +446,92 @@ app.get('/recetas/:usuario_id', (req, res) => {
 });
 
 
+//.-----------------------------------------------------
+app.get('/buscar_usuario', async (req, res) => {
+    const { id_usuario } = req.query;
 
+    try {
+        // Consulta para obtener información básica del usuario
+        const usuarioQuery = `
+            SELECT u.*, p.telefono, p.direccion 
+            FROM Usuario u 
+            LEFT JOIN Perfil_user p ON u.id_usuario = p.usuario_id 
+            WHERE u.id_usuario = ?
+        `;
+
+        // Consulta para obtener recetas del usuario
+        const recetasQuery = `
+            SELECT r.id_receta, r.fecha_emision, r.observaciones, 
+                   d.dosis, d.dias_tratamiento, d.unidades_medicamento, 
+                   d.via_administracion, m.nombre_comercial, m.nombre_generico
+            FROM Receta r
+            JOIN Detalle_receta d ON r.id_receta = d.receta_id
+            JOIN Medicamento m ON d.id_det_receta = m.det_rec_id
+            WHERE r.usuario_id = ?
+        `;
+
+        // Consulta para obtener alergias del usuario
+        const alergiasQuery = `
+            SELECT tipo_alergia, descripcion 
+            FROM Alergia 
+            WHERE usuario_id = ?
+        `;
+
+        // Ejecutar todas las consultas
+        const usuarioResult = await new Promise((resolve, reject) => {
+            db.query(usuarioQuery, [id_usuario], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        const recetasResult = await new Promise((resolve, reject) => {
+            db.query(recetasQuery, [id_usuario], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        const alergiasResult = await new Promise((resolve, reject) => {
+            db.query(alergiasQuery, [id_usuario], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
+        // Validar si se encontró información del usuario
+        if (!usuarioResult || usuarioResult.length === 0) {
+            return res.json({ success: false, message: 'Usuario no encontrado' });
+        }
+
+        // Construir la respuesta
+        const usuario = usuarioResult[0];
+        res.json({
+            success: true,
+            usuario: {
+                ...usuario,
+                recetas: recetasResult,
+                alergias: alergiasResult,
+            },
+        });
+    } catch (error) {
+        console.error('Error en la consulta:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+///-----------------
+app.get('/busqueda_p.html', (req, res) => {
+    const { func_salud } = req.session.usuario; // Suponiendo que el rol está en la sesión
+    if (func_salud !== 1) {
+        return res.status(403).send('Acceso denegado');
+    }
+    res.sendFile(path.join(__dirname, 'busqueda_p.html'));
+});
+
+
+
+
+  
 // -------------------------------------------Inicializar el servidor-------------------------------------------
 const port = 3000;
 app.listen(port, () => {

@@ -47,7 +47,10 @@ body {
     background-size: cover;
     background-position: center;
   }
-
+  .texto_01 {
+    text-align: left; /* Alineación a la izquierda */
+    margin: 10px 0;
+}
 
 /* Estilo opcional para mejorar la alineación de la barra de búsqueda */
 .nav-item .form-control {

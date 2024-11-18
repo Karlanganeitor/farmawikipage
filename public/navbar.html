@@ -9,12 +9,14 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
+           <!-- Solo mostrar si es funcionario de salud (func_salud = 1) -->
+           <li class="nav-item" id="buscarPacienteNavItem">
             <a class="nav-link" aria-current="page" href="busqueda_p.html">
-              <img src="imagenes/buscar_p.png" alt="" width="24" height="24" class="d-inline-block align-text-top me-2">
-              Buscar Pacientes
+                <img src="imagenes/buscar_p.png" alt="" width="24" height="24" class="d-inline-block align-text-top me-2">
+                Buscar Pacientes
             </a>
-          </li>
+        </li>
+        
 
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="perfil.html">
@@ -47,3 +49,29 @@
       </div>
     </div>
   </nav>
+  
+
+
+  <script>
+    window.onload = function() {
+    // Recupera el valor de func_salud
+    const funcSalud = parseInt(localStorage.getItem('func_salud'), 10);
+    console.log("Valor de func_salud desde localStorage:", funcSalud);
+
+    // Asegúrate de que el valor es un número
+    if (isNaN(funcSalud)) {
+        console.error('El valor de func_salud no es un número válido');
+        return; // No continuar si no es un número válido
+    }
+
+    // Verifica que el valor sea 0
+    if (funcSalud === 0) {
+        const buscarPacienteNavItem = document.getElementById('buscarPacienteNavItem');
+        if (buscarPacienteNavItem) {
+            buscarPacienteNavItem.style.display = 'none'; // Oculta el elemento
+        }
+    }
+}
+
+</script>
+
