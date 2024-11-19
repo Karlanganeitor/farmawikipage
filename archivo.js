@@ -529,7 +529,32 @@ app.get('/busqueda_p.html', (req, res) => {
 });
 
 
+// Endpoint para buscar en la API de MedlinePlus
+app.get('/api/search', (req, res) => {
+    const term = req.query.term;
 
+    if (!term) {
+        return res.status(400).json({ error: 'Debe proporcionar un término de búsqueda' });
+    }
+
+    const apiUrl = `https://wsearch.nlm.nih.gov/ws/query?db=healthTopicsSpanish&term=${encodeURIComponent(term)}`;
+
+    // Usamos fetch para consultar la API externa
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la respuesta de la API: ${response.status}`);
+            }
+            return response.text(); // Obtener datos como texto XML
+        })
+        .then(data => {
+            res.send(data); // Enviar la respuesta XML como texto al cliente
+        })
+        .catch(error => {
+            console.error('Error al consultar la API:', error.message);
+            res.status(500).json({ error: 'Error al consultar la API de MedlinePlus' });
+        });
+});
 
   
 // -------------------------------------------Inicializar el servidor-------------------------------------------
@@ -537,3 +562,5 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}/login.html`);
 });
+
+
