@@ -138,4 +138,26 @@ button[type="submit"]:hover {
     }
 }
 
+/* Estilo para el contenedor del título */
+.title-box {
+    background-color: #FF8C42; /* Color de fondo */
+    padding: 20px;
+    border-radius: 8px;
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
+.title-box h1 {
+    color: black;
+    font-size: 2rem;
+    margin: 0;
+}
+
+nav.navbar {
+    margin-bottom: 30px; /* Ajusta este valor para el espacio entre la navbar y el contenido */
+}
+.container {
+    margin-top: 30px; /* Esto también puede ayudar a asegurar que el espacio sea adecuado */
+}

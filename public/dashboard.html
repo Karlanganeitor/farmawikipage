@@ -25,43 +25,65 @@
         // Llamamos a checkSession cuando la página se carga
         window.onload = checkSession;
     </script>
+ 
+    <script>
+      // obtener la id del usuario para mostrarlo en la pagina
+      // dashboard.js
+document.addEventListener('DOMContentLoaded', () => {
+    const idUsuario = localStorage.getItem('id_usuario');
+
+    if (idUsuario) {
+        // Mostrar el ID en el dashboard
+        document.getElementById('usuario-id').textContent = `ID de Usuario: ${idUsuario}`;
+    } else {
+        console.error('ID de usuario no encontrado');
+        // Redirigir al login si es necesario
+        window.location.href = '/login.html';
+    }
+});
+
+      
+    </script>
   </head>
 
   <body>
     <header>
       <div id="navbar-container">
       </header>
-
-<div class="contenedor-columnas">
-<!-- Contenido de las columnas -->
-</div>
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-8 mx-auto">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div id="searchContainer" class="row">
-                                <div class="col-md-11">
-                                    <input type="text" class="form-control" id="searchTerm" placeholder="Busca tu medicamento...">
-                                </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary btn-lg naranjo-02 border-0" id="searchButton">Buscar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Contenedor para los resultados de la búsqueda -->
-                    <div id="results" class="mt-4">
-                        <!-- Aquí se mostrarán los resultados -->
-                    </div>
-                </div>
+      <div class="container mt-4">
+        <div class="row">
+          <!-- Card para mostrar la ID del usuario -->
+          <div class="col-md-3"> <!-- Ajusta el ancho de la columna -->
+            <div class="card shadow-sm h-100"> <!-- Hace que la tarjeta ocupe toda la altura -->
+              <div class="card-body d-flex flex-column justify-content-center">
+                <h6 class="card-title fw-bold">Información de Usuario</h6>
+                <p id="usuario-id" class="card-text text-muted" style="font-size: 0.9rem;">Cargando ID de usuario...</p>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
+          </div>
+      
+          <!-- Card para el buscador de medicamentos -->
+          <div class="col-md-9">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h6 class="card-title fw-bold mb-3">Buscar Medicamentos</h6>
+                <div class="row align-items-center"> <!-- Alineación vertical con flexbox -->
+                  <div class="col-md-10">
+                    <input type="text" class="form-control" id="searchTerm" placeholder="Busca tu medicamento...">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-primary w-100" id="searchButton">Buscar</button>
+                  </div>
+                </div>
+                <!-- Contenedor para los resultados de la búsqueda -->
+                <div id="results" class="mt-4">
+                  <!-- Aquí se mostrarán los resultados -->
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      
 
 <div class="contenedor-columnas">
 <!-- Contenido de las columnas -->

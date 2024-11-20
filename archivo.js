@@ -556,8 +556,74 @@ app.get('/api/search', (req, res) => {
         });
 });
 
+//-----------------------------------------------Recuperar contraseña
 
-  
+// Validar usuario
+app.post('/api/validate-user', (req, res) => {
+    const { email, phone } = req.body;
+
+    console.log('Correo:', email); // Verifica el valor
+    console.log('Teléfono:', phone); // Verifica el valor
+
+    if (!email || !phone) {
+        return res.status(400).json({ message: 'Email y teléfono son requeridos' });
+    }
+
+    const sql = `
+        SELECT u.id_usuario 
+        FROM Usuario u 
+        JOIN Perfil_user p ON u.id_usuario = p.usuario_id 
+        WHERE u.correo_elec = ? AND p.telefono = ?
+    `;
+    db.query(sql, [email, phone], (err, results) => {
+        if (err) {
+            console.error('Error en la consulta SQL:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado o datos incorrectos' });
+        }
+
+        res.status(200).json({ message: 'Usuario validado', userId: results[0].id_usuario });
+    });
+});
+
+
+
+// Actualizar contraseña
+app.post('/api/update-password', async (req, res) => {
+    const { email, phone, newPassword } = req.body;
+
+    // Generar el hash de la nueva contraseña
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Actualizar la contraseña en la base de datos usando JOIN
+    const sql = `
+        UPDATE Usuario u
+        JOIN Perfil_user p ON u.id_usuario = p.usuario_id
+        SET u.contrasena = ?
+        WHERE u.correo_elec = ? AND p.telefono = ?
+    `;
+    
+    db.query(sql, [hashedPassword, email, phone], (err, results) => {
+        if (err) {
+            console.error('Error al actualizar la contraseña:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+    
+        if (results.affectedRows === 0) {
+            console.log(`No se encontró ningún usuario con el correo ${email} y teléfono ${phone}`);
+            return res.status(404).json({ message: 'Usuario no encontrado o datos incorrectos' });
+        }
+    
+        res.status(200).json({ message: 'Contraseña actualizada correctamente' });
+    });
+    
+});
+
+
+
+
 // -------------------------------------------Inicializar el servidor-------------------------------------------
 const port = 3000;
 app.listen(port, () => {

@@ -8,6 +8,9 @@ npm install aws-sdk amazon-cognito-identity-js
 npm install mysql2
 npm install -g nodemon
 npm install node-fetch
+npm install express nodemailer body-parser crypto dotenv
+npm install nodemailer
+
 
 hecharlo a andar: nodemon archivo.js   
 punto enlace bd: farmawiki.c5yew0gcemb0.sa-east-1.rds.amazonaws.com
