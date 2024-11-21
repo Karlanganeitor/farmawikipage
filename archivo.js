@@ -717,7 +717,6 @@ app.get('/buscar_usuario', async (req, res) => {
 
 
 
-
 // -------------------------------------------Inicializar el servidor-------------------------------------------
 const port = 3000;
 app.listen(port, () => {
