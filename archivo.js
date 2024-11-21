@@ -621,6 +621,7 @@ app.post('/api/update-password', async (req, res) => {
     
 });
 
+
 //Ruta para asignar Roles
 
 app.post('/asignar_rol', (req, res) => {
@@ -664,6 +665,53 @@ db.query(checkAdminQuery, [admin_id], (err, adminResults) => {
     });
 });
 
+});
+// Endpoint para buscar usuario
+app.get('/buscar_usuario', async (req, res) => {
+    const userId = req.query.id_usuario;
+
+    // Query para obtener el usuario por ID
+    const userQuery = 'SELECT * FROM usuarios WHERE id_usuario = ?';
+
+    // Query para obtener recetas y alergias
+    const recetasQuery = 'SELECT * FROM recetas WHERE id_usuario = ?';
+    const alergiasQuery = 'SELECT * FROM alergias WHERE id_usuario = ?';
+
+    try {
+        db.query(userQuery, [userId], (err, userResult) => {
+            if (err || userResult.length === 0) {
+                return res.json({ success: false, message: 'Usuario no encontrado' });
+            }
+            const usuario = userResult[0];
+
+            db.query(recetasQuery, [userId], (err, recetasResult) => {
+                if (err) {
+                    return res.json({ success: false, message: 'Error al obtener recetas' });
+                }
+
+                db.query(alergiasQuery, [userId], (err, alergiasResult) => {
+                    if (err) {
+                        return res.json({ success: false, message: 'Error al obtener alergias' });
+                    }
+
+                    // Responder con los datos del usuario, recetas y alergias
+                    return res.json({
+                        success: true,
+                        usuario: {
+                            nombre_usuario: usuario.nombre_usuario,
+                            telefono: usuario.telefono,
+                            direccion: usuario.direccion,
+                            recetas: recetasResult,
+                            alergias: alergiasResult
+                        }
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Error al procesar la solicitud:', error);
+        res.json({ success: false, message: 'Ocurrió un error al procesar la solicitud.' });
+    }
 });
 
 

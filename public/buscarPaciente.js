@@ -9,7 +9,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 
         // Verifica si la solicitud fue exitosa
         if (data.success) {
-            displayUserInfo(data.usuario);
+            displayUserInfo(data.usuario, userId);
         } else {
             alert(data.message || 'Usuario no encontrado');
         }
@@ -20,7 +20,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 });
 
 // Función para mostrar la información del usuario
-function displayUserInfo(usuario) {
+function displayUserInfo(usuario, userId) {
     // Muestra la sección de información
     document.getElementById('userInfo').style.display = 'block';
 
@@ -53,8 +53,12 @@ function displayUserInfo(usuario) {
         </div>
     `).join('');
     document.getElementById('alergiasList').innerHTML = alergiasList || '<p>No hay alergias asociadas.</p>';
-}
 
+    // Mostrar el botón "Asignar Rol" solo si el ID de usuario es 27
+    if (parseInt(userId) === 27) {
+        document.getElementById('assignRoleButton').style.display = 'block';
+    }
+}
 
 // Manejador del botón "Asignar Rol"
 document.getElementById('assignRoleButton').addEventListener('click', async function () {
@@ -86,6 +90,7 @@ document.getElementById('assignRoleButton').addEventListener('click', async func
         alert('Ocurrió un error al procesar la solicitud.');
     }
 });
+
 
 
 
