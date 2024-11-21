@@ -35,7 +35,6 @@ function displayUserInfo(usuario) {
     // Recetas
     const recetasList = usuario.recetas.map(receta => `
         <div class="card">
-            
             <p><strong>Fecha Emisión:</strong> ${receta.fecha_emision}</p>
             <p><strong>Observaciones:</strong> ${receta.observaciones}</p>
             <p><strong>Medicamento:</strong> ${receta.nombre_comercial} (${receta.nombre_generico})</p>
@@ -55,3 +54,39 @@ function displayUserInfo(usuario) {
     `).join('');
     document.getElementById('alergiasList').innerHTML = alergiasList || '<p>No hay alergias asociadas.</p>';
 }
+
+
+// Manejador del botón "Asignar Rol"
+document.getElementById('assignRoleButton').addEventListener('click', async function () {
+    const userId = document.getElementById('userId').value;
+
+    if (!confirm('¿Estás seguro de que deseas asignar el rol a este usuario?')) {
+        return;
+    }
+
+    try {
+        // Solicitud para asignar el rol
+        const response = await fetch('http://localhost:3000/asignar_rol', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id_usuario: userId }), // Enviar solo el id_usuario
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('El rol ha sido asignado correctamente.');
+        } else {
+            alert(result.message || 'Error al asignar el rol.');
+        }
+    } catch (error) {
+        console.error('Error al asignar el rol:', error);
+        alert('Ocurrió un error al procesar la solicitud.');
+    }
+});
+
+
+
+

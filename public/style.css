@@ -156,8 +156,8 @@ button[type="submit"]:hover {
 }
 
 nav.navbar {
-    margin-bottom: 30px; /* Ajusta este valor para el espacio entre la navbar y el contenido */
+    margin-bottom: 20px; /* Ajusta este valor para el espacio entre la navbar y el contenido */
 }
 .container {
-    margin-top: 30px; /* Esto también puede ayudar a asegurar que el espacio sea adecuado */
+    margin-top: 20px; /* Esto también puede ayudar a asegurar que el espacio sea adecuado */
 }
