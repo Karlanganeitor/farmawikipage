@@ -622,8 +622,7 @@ app.post('/api/update-password', async (req, res) => {
 });
 
 
-//Ruta para asignar Roles
-
+// Ruta para asignar Roles
 app.post('/asignar_rol', (req, res) => {
     const { id_usuario, admin_id } = req.body; // admin_id es el usuario que realiza la solicitud
 
@@ -632,40 +631,41 @@ app.post('/asignar_rol', (req, res) => {
     }
 
     // Verificar si el usuario que realiza la solicitud es administrador
-const checkAdminQuery = 'SELECT administrador FROM Usuario WHERE id_usuario = ?';
-db.query(checkAdminQuery, [admin_id], (err, adminResults) => {
-    if (err) {
-        console.error('Error al verificar administrador:', err);
-        return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
-    }
-
-    console.log('Resultado de verificación de administrador:', adminResults);
-
-    if (adminResults.length === 0) {
-        return res.status(404).json({ success: false, message: 'Usuario administrador no encontrado.' });
-    }
-
-    if (adminResults[0].administrador !== 1) {
-        return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción.' });
-    }
-
-    // Si el usuario es administrador, actualizar func_salud del usuario objetivo
-    const updateQuery = 'UPDATE Usuario SET func_salud = 1 WHERE id_usuario = ?';
-    db.query(updateQuery, [id_usuario], (err, result) => {
+    const checkAdminQuery = 'SELECT administrador FROM Usuario WHERE id_usuario = ?';
+    db.query(checkAdminQuery, [admin_id], (err, adminResults) => {
         if (err) {
-            console.error('Error al asignar el rol:', err);
-            return res.status(500).json({ success: false, message: 'Error al asignar el rol.' });
+            console.error('Error al verificar administrador:', err);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
         }
 
-        if (result.affectedRows > 0) {
-            res.json({ success: true, message: 'Rol asignado exitosamente.' });
-        } else {
-            res.status(404).json({ success: false, message: 'Usuario no encontrado.' });
+        console.log('Resultado de verificación de administrador:', adminResults);
+
+        if (adminResults.length === 0) {
+            return res.status(404).json({ success: false, message: 'Usuario administrador no encontrado.' });
         }
+
+        if (adminResults[0].administrador !== 1) {
+            return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción.' });
+        }
+
+        // Si el usuario es administrador, actualizar func_salud del usuario objetivo
+        const updateQuery = 'UPDATE Usuario SET func_salud = 1 WHERE id_usuario = ?';
+        db.query(updateQuery, [id_usuario], (err, result) => {
+            if (err) {
+                console.error('Error al asignar el rol:', err);
+                return res.status(500).json({ success: false, message: 'Error al asignar el rol.' });
+            }
+
+            if (result.affectedRows > 0) {
+                res.json({ success: true, message: 'Rol asignado exitosamente.' });
+            } else {
+                res.status(404).json({ success: false, message: 'Usuario no encontrado.' });
+            }
+        });
     });
 });
 
-});
+
 // Endpoint para buscar usuario
 app.get('/buscar_usuario', async (req, res) => {
     const userId = req.query.id_usuario;

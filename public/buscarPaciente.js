@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const userId = localStorage.getItem('id_usuario');
+
+    if (parseInt(userId) === 27) {
+        document.getElementById('assignRoleButton').style.display = 'block';
+    }
+});
+
 document.getElementById('searchForm').addEventListener('submit', async function (e) {
     e.preventDefault(); // Evita que la página se recargue
     const userId = document.getElementById('userId').value;
@@ -9,7 +17,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 
         // Verifica si la solicitud fue exitosa
         if (data.success) {
-            displayUserInfo(data.usuario, userId);
+            displayUserInfo(data.usuario);
         } else {
             alert(data.message || 'Usuario no encontrado');
         }
@@ -20,7 +28,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 });
 
 // Función para mostrar la información del usuario
-function displayUserInfo(usuario, userId) {
+function displayUserInfo(usuario) {
     // Muestra la sección de información
     document.getElementById('userInfo').style.display = 'block';
 
@@ -53,16 +61,12 @@ function displayUserInfo(usuario, userId) {
         </div>
     `).join('');
     document.getElementById('alergiasList').innerHTML = alergiasList || '<p>No hay alergias asociadas.</p>';
-
-    // Mostrar el botón "Asignar Rol" solo si el ID de usuario es 27
-    if (parseInt(userId) === 27) {
-        document.getElementById('assignRoleButton').style.display = 'block';
-    }
 }
 
 // Manejador del botón "Asignar Rol"
 document.getElementById('assignRoleButton').addEventListener('click', async function () {
     const userId = document.getElementById('userId').value;
+    const adminId = localStorage.getItem('id_usuario'); // Obtener el admin_id desde localStorage
 
     if (!confirm('¿Estás seguro de que deseas asignar el rol a este usuario?')) {
         return;
@@ -75,7 +79,7 @@ document.getElementById('assignRoleButton').addEventListener('click', async func
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id_usuario: userId }), // Enviar solo el id_usuario
+            body: JSON.stringify({ id_usuario: userId, admin_id: adminId }) // Enviar id_usuario y admin_id
         });
 
         const result = await response.json();
@@ -90,6 +94,9 @@ document.getElementById('assignRoleButton').addEventListener('click', async func
         alert('Ocurrió un error al procesar la solicitud.');
     }
 });
+
+
+
 
 
 
