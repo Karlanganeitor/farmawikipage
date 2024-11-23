@@ -47,22 +47,67 @@
           <h3>Detalles de la Receta</h3>
   
           <label for="nombre_comercial">Nombre Comercial:</label>
-          <input type="text" id="nombre_comercial" name="nombre_comercial" required>
+          <input type="text" id="nombre_comercial" name="nombre_comercial" placeholder="Ejemplo: Panadol, Tylenol..." required>
+
   
           <label for="nombre_generico">Nombre Genérico:</label>
-          <input type="text" id="nombre_generico" name="nombre_generico" required>
+          <input type="text" id="nombre_generico" name="nombre_generico " placeholder="Ejemplo: Paracetamol, Ibuprofeno..."required>
   
           <label for="medicamento_dosis">Dosis:</label>
-          <input type="text" id="medicamento_dosis" name="dosis" required>
+<div style="display: flex; align-items: center; gap: 5px;">
+  <input type="number" id="medicamento_dosis" name="dosis_cantidad" placeholder="Cantidad" min="0" required>
+  <select id="medicamento_unidad" name="dosis_unidad" required>
+    <option value="ml">ml</option>
+    <option value="mg">mg</option>
+  </select>
+</div>
+
   
           <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6" >
                 <label for="dias_tratamiento">Días de Tratamiento:</label>
-                <input type="number" id="dias_tratamiento" name="dias_tratamiento" min="1" required class="form-control">
-            </div>
+                <select id="dias_tratamiento" name="dias_tratamiento" class="form-control" onchange="toggleOtrosInput()" required>
+                  <option value="" disabled selected>Seleccione una opción</option>
+                  <option value="2_dias">2 días</option>
+                  <option value="7_dias">7 días</option>
+                  <option value="2_semanas">2 semanas</option>
+                  <option value="1_mes">1 mes</option>
+                  <option value="3_meses">3 meses</option>
+                  <option value="6_meses">6 meses</option>
+                  <option value="indefinido">Indefinido</option>
+                  <option value="otros">Otros</option>
+                </select>
+                <!-- Campo de texto para "Otros", oculto por defecto -->
+                <input 
+                  type="text" 
+                  id="otros_dias_tratamiento" 
+                  name="otros_dias_tratamiento" 
+                  placeholder="Especificar..." 
+                  class="form-control mt-2" 
+                  style="display: none;" 
+                >
+              </div>
+              
+              <script>
+                function toggleOtrosInput() {
+                  const select = document.getElementById("dias_tratamiento");
+                  const otrosInput = document.getElementById("otros_dias_tratamiento");
+              
+                  if (select.value === "otros") {
+                    otrosInput.style.display = "block"; // Mostrar campo de texto
+                    otrosInput.required = true; // Hacer obligatorio
+                  } else {
+                    otrosInput.style.display = "none"; // Ocultar campo de texto
+                    otrosInput.required = false; // No obligatorio
+                    otrosInput.value = ""; // Limpiar el campo
+                  }
+                }
+              </script>
+              
+              
             <div class="col-md-6">
                 <label for="unidades_medicamento">Unidades de Medicamento:</label>
-                <input type="number" id="unidades_medicamento" name="unidades_medicamento" min="1" required class="form-control">
+                <input type="number" id="unidades_medicamento" name="unidades_medicamento" min="1" required class="form-control" placeholder="12 Tabletas, 60 Tabletas...">
             </div>
         </div>
         

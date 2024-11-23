@@ -26,14 +26,16 @@
                 <div class="col-md-6">
                   <div class="mb-3">
         <label for="n_doc_identificacion" class="form-label">Documento de Identificación:</label>
-        <input type="text" class="form-control" placeholder="Ej: 11.222.333-4" id="n_doc_identificacion" name="n_doc_identificacion" required>
+        <input type="text" class="form-control" placeholder="Ej: 11.222.333 (Rut sin guion ni n° identificador)" id="n_doc_identificacion" name="n_doc_identificacion" required>
       </div>
     </div>
     <div class="col-md-6">
       <div class="mb-3">
         <label for="telefono" class="form-label">Teléfono:</label>
-        <input type="tel" class="form-control" placeholder="Ej: 912345678" id="telefono" name="telefono" required>
+        <input type="tel" class="form-control" placeholder="Ej: 912345678" id="telefono" name="telefono" maxlength="9" pattern="[0-9]{9}" required title="El número debe contener exactamente 9 dígitos sin espacios ni caracteres especiales."
+        >
       </div>
+      
     </div>
   </div>
   <div class="row">
