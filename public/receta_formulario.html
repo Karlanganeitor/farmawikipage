@@ -124,6 +124,46 @@
               <option value="Rectal">Rectal</option>
               <option value="Inhalatoria">Inhalatoria</option>
           </select>
+          <h3>Asignar Receta</h3>
+          <label for="asignar_receta">Asignar receta a:</label>
+          <select id="asignar_receta" onchange="actualizarObservaciones()">
+              <option value="" disabled selected>Seleccione un destinatario</option>
+              <option value="A mi nombre">A mi nombre</option>
+              <option value="A nombre de mi hijo">A nombre de mi hijo</option>
+          </select>
+          
+          <!-- Campo para el nombre del hijo, oculto por defecto -->
+          <div id="nombre_hijo_container" style="display: none; margin-top: 10px;">
+              <label for="nombre_hijo">Nombre del hijo:</label>
+              <input type="text" id="nombre_hijo" placeholder="Ingrese el nombre de su hijo">
+          </div>
+          
+          <script>
+            function actualizarObservaciones() {
+                const asignarRecetaSelect = document.getElementById('asignar_receta');
+                const observacionesTextarea = document.getElementById('observaciones');
+                const nombreHijoContainer = document.getElementById('nombre_hijo_container');
+                const nombreHijoInput = document.getElementById('nombre_hijo');
+        
+                const opcionSeleccionada = asignarRecetaSelect.value;
+        
+                if (opcionSeleccionada === "A nombre de mi hijo") {
+                    // Mostrar el campo para ingresar el nombre del hijo
+                    nombreHijoContainer.style.display = "block";
+                    nombreHijoInput.addEventListener('input', () => {
+                        observacionesTextarea.value = `Receta asignada: ${opcionSeleccionada}, ${nombreHijoInput.value}`;
+                    });
+                } else {
+                    // Ocultar el campo y limpiar su valor
+                    nombreHijoContainer.style.display = "none";
+                    nombreHijoInput.value = "";
+                    observacionesTextarea.value = `Receta asignada: ${opcionSeleccionada}`;
+                }
+            }
+        </script>
+        
+
+
   
           <label for="observaciones">Observaciones o indicaciones:</label>
           <textarea id="observaciones" name="observaciones" required></textarea>

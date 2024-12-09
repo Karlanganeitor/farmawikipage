@@ -91,15 +91,17 @@
       .catch(err => console.error('Error cargando el navbar:', err));
 </script>
 <script>
-  // Obtén el elemento de la fecha de emisión
-  const fechaEmisionInput = document.getElementById('fecha_nac');
-  
-  // Obtén la fecha actual en formato adecuado para el atributo "max"
-  const today = new Date().toISOString().split('T')[0];
-  
-  // Asigna la fecha actual como la fecha máxima permitida
-  fechaEmisionInput.setAttribute('max', today);
+  // Obtén el elemento de la fecha de nacimiento
+  const fechaNacInput = document.getElementById('fecha_nac');
+
+  // Calcula la fecha máxima permitida para que el usuario tenga al menos 18 años
+  const today = new Date();
+  const minAdultDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+
+  // Asigna la fecha mínima permitida como atributo "max"
+  fechaNacInput.setAttribute('max', minAdultDate);
 </script>
+
 
     <script src="updateProfile.js"></script>
     <!-- Bootstrap Bundle with Popper -->
