@@ -1,8 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
     const userId = localStorage.getItem('id_usuario');
-
-    if (parseInt(userId) === 27) {
-        document.getElementById('assignRoleButton').style.display = 'block';
+    if (userId) {
+        // El usuario está autenticado, muestra el formulario de búsqueda
+        document.getElementById('searchForm').style.display = 'block';
+        
+        // Mostrar botón de asignar rol si el usuario es admin (id_usuario === 27)
+        if (parseInt(userId, 10) === 27) {
+            document.getElementById('assignRoleButton').style.display = 'block';
+        }
+    } else {
+        // Redirigir al usuario si no está autenticado
+        alert('No has iniciado sesión. Redirigiendo a la página de inicio de sesión...');
+        window.location.href = '/login.html'; // Cambia a la ruta de tu página de inicio de sesión
     }
 });
 
